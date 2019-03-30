@@ -43,7 +43,7 @@ public class AllSensorData extends DataObject {
         private ArrayList nodeDataList;
 
         public AllSensorDataBuilder() {
-            this.timeStamp = new SimpleDateFormat("yyyy.MM.dd.hh.mm..ss").format(new Date());
+            this.timeStamp = new SimpleDateFormat("yyyy.MM.dd.hh.mm.ss").format(new Date());
         }
 
         public AllSensorDataBuilder setChassisData(ChassisData chassisData) {
