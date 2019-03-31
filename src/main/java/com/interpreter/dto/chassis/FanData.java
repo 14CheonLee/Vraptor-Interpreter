@@ -52,7 +52,7 @@ public class FanData extends DataObject {
     @Override
     public JsonObject toJson() {
         return Json.createObjectBuilder()
-                .add("fan_num", this.fanNumber)
+                .add("fan_number", this.fanNumber)
                 .add("speed", this.speed)
                 .build();
     }

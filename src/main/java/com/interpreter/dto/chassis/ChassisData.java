@@ -2,13 +2,15 @@ package com.interpreter.dto.chassis;
 
 import com.interpreter.dto.DataObject;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import java.util.ArrayList;
 
 public class ChassisData extends DataObject {
 
     private final int temperature;
-    private final ArrayList fanDataList;
+    private final ArrayList<FanData> fanDataList;
     private final boolean fanAutoSwitch;
 
     private ChassisData(ChassisDataBuilder chassisDataBuilder) {
@@ -21,7 +23,7 @@ public class ChassisData extends DataObject {
         return temperature;
     }
 
-    public ArrayList getFanDataList() {
+    public ArrayList<FanData> getFanDataList() {
         return fanDataList;
     }
 
@@ -35,7 +37,7 @@ public class ChassisData extends DataObject {
     public static class ChassisDataBuilder {
 
         private int temperature;
-        private ArrayList fanDataList;
+        private ArrayList<FanData> fanDataList;
         private boolean fanAutoSwitch;
 
         public ChassisDataBuilder() {
@@ -47,7 +49,7 @@ public class ChassisData extends DataObject {
             return this;
         }
 
-        public ChassisDataBuilder setFanDataList(ArrayList fanDataList) {
+        public ChassisDataBuilder setFanDataList(ArrayList<FanData> fanDataList) {
             this.fanDataList = fanDataList;
             return this;
         }
@@ -64,6 +66,25 @@ public class ChassisData extends DataObject {
 
     @Override
     public JsonObject toJson() {
-        return null;
+        JsonArrayBuilder fanDataList = Json.createArrayBuilder();
+
+        for (FanData fanData : this.fanDataList) {
+            fanDataList.add(fanData.toJson());
+        }
+
+        return Json.createObjectBuilder()
+                .add("temperature", this.temperature)
+                .add("fan_data", fanDataList)
+                .add("fan_auto_switch", this.fanAutoSwitch)
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return "ChassisData{" +
+                "temperature=" + temperature +
+                ", fanDataList=" + fanDataList +
+                ", fanAutoSwitch=" + fanAutoSwitch +
+                '}';
     }
 }

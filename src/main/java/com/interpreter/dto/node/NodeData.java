@@ -53,7 +53,7 @@ public class NodeData extends DataObject {
     @Override
     public JsonObject toJson() {
         return Json.createObjectBuilder()
-                .add("node_num", this.nodeNumber)
+                .add("node_number", this.nodeNumber)
                 .add("power_status", this.powerStatus)
                 .build();
     }
