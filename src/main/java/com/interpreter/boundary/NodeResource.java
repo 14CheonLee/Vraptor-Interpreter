@@ -1,6 +1,7 @@
 package com.interpreter.boundary;
 
 import com.interpreter.dto.node.NodeData;
+import com.interpreter.dto.node.ServerData;
 import com.interpreter.system.BinaryAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +29,13 @@ public class NodeResource extends ResourceObject {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_power_status")
     public Response setNodePowerStatus(@FormParam("node_num") int nodeNumber, @FormParam("power_status") boolean powerStatus) {
         JsonObject statusJsonObject;
 
         try {
-//            NodeData nodeData = new NodeData.NodeDataBuilder()
-//                    .setNodeNumber(nodeNumber)
-//                    .setPowerStatus(powerStatus)
-//                    .build();
-
             binaryAccess.setPowerStatus(nodeNumber, powerStatus);
 
             statusJsonObject = Json.createObjectBuilder()
@@ -56,16 +53,22 @@ public class NodeResource extends ResourceObject {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Path("/get_all_power_status")
-    public Response getAllNodePowerStatus() {
-        return null;
+    @Path("/get_all_node_data")
+    public Response getAllNodeData() {
+        ServerData serverData = binaryAccess.getServerData();
+
+        return Response.ok(serverData.getNodeDataListToJson().toString()).build();
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Path("/get_power_status")
-    public Response getNodePowerStatus(@FormParam("node_num") int nodeNumber) {
-        return null;
+    @Path("/get_node_data")
+    public Response getNodePowerStatus(@FormParam("node_number") int nodeNumber) {
+        NodeData nodeData = binaryAccess.getNodeData(nodeNumber);
+
+        return Response.ok(nodeData.toJson().toString()).build();
     }
 }

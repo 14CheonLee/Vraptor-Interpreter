@@ -1,7 +1,5 @@
 package com.interpreter.boundary;
 
-import com.interpreter.dto.chassis.ChassisData;
-import com.interpreter.dto.chassis.FanData;
 import com.interpreter.system.BinaryAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +27,13 @@ public class FanResource extends ResourceObject {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_fan_mode")
     public Response setFanMode(@FormParam("fan_auto_switch") boolean fanAutoSwitch) {
         JsonObject statusJsonObject;
 
         try {
-//            ChassisData chassisData = new ChassisData.ChassisDataBuilder()
-//                    .setFanAutoSwitch(fanAutoSwitch)
-//                    .build();
             binaryAccess.setFanMode(fanAutoSwitch);
 
             statusJsonObject = Json.createObjectBuilder()
@@ -55,17 +51,13 @@ public class FanResource extends ResourceObject {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_speed")
     public Response setFanSpeed(@FormParam("fan_num") int fanNumber, @FormParam("speed") int speed) {
         JsonObject statusJsonObject;
 
         try {
-//            FanData fanData = new FanData.FanDataBuilder()
-//                    .setFanNumber(fanNumber)
-//                    .setSpeed(speed)
-//                    .build();
-
             binaryAccess.setFanSpeed(fanNumber, speed);
 
             statusJsonObject = Json.createObjectBuilder()
