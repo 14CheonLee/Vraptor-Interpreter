@@ -1,22 +1,21 @@
 package com.interpreter.dto;
 
 import com.interpreter.dto.chassis.ChassisData;
-import com.interpreter.dto.node.NodeData;
+import com.interpreter.dto.node.ServerData;
 
 import javax.json.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class AllSensorData extends DataObject {
 
     private final ChassisData chassisData;
-    private final ArrayList<NodeData> nodeDataList;
+    private final ServerData serverData;
     private final String timeStamp;
 
     private AllSensorData(AllSensorDataBuilder allSensorDataBuilder) {
         this.chassisData = allSensorDataBuilder.chassisData;
-        this.nodeDataList = allSensorDataBuilder.nodeDataList;
+        this.serverData = allSensorDataBuilder.serverData;
         this.timeStamp = allSensorDataBuilder.timeStamp;
     }
 
@@ -24,8 +23,8 @@ public class AllSensorData extends DataObject {
         return chassisData;
     }
 
-    public ArrayList getNodeDataList() {
-        return nodeDataList;
+    public ServerData getServerData() {
+        return serverData;
     }
 
     public String getTimeStamp() {
@@ -39,7 +38,7 @@ public class AllSensorData extends DataObject {
         private final String timeStamp;
 
         private ChassisData chassisData;
-        private ArrayList<NodeData> nodeDataList;
+        private ServerData serverData;
 
         public AllSensorDataBuilder() {
             this.timeStamp = new SimpleDateFormat("yyyy.MM.dd.hh.mm.ss").format(new Date());
@@ -50,8 +49,8 @@ public class AllSensorData extends DataObject {
             return this;
         }
 
-        public AllSensorDataBuilder setNodeDataList(ArrayList<NodeData> nodeDataList) {
-            this.nodeDataList = nodeDataList;
+        public AllSensorDataBuilder setServerData(ServerData serverData) {
+            this.serverData = serverData;
             return this;
         }
 
@@ -62,15 +61,9 @@ public class AllSensorData extends DataObject {
 
     @Override
     public JsonObject toJson() {
-        JsonArrayBuilder nodeDataList = Json.createArrayBuilder();
-
-        for (NodeData nodeData : this.nodeDataList) {
-            nodeDataList.add(nodeData.toJson());
-        }
-
         return Json.createObjectBuilder()
                 .add("chassis_data", this.chassisData.toJson())
-                .add("node_data", nodeDataList)
+                .add("server_data", this.serverData.toJson())
                 .add("timestamp", this.timeStamp)
                 .build();
     }
@@ -79,7 +72,7 @@ public class AllSensorData extends DataObject {
     public String toString() {
         return "AllSensorData{" +
                 "chassisData=" + chassisData +
-                ", nodeDataList=" + nodeDataList +
+                ", serverData=" + serverData +
                 ", timeStamp='" + timeStamp + '\'' +
                 '}';
     }
