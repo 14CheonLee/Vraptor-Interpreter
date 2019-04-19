@@ -32,14 +32,20 @@ public class NodeResource extends ResourceObject {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_power_status")
-    public Response setNodePowerStatus(@FormParam("node_num") int nodeNumber, @FormParam("power_status") boolean powerStatus) {
+    public Response setNodePowerStatus(@FormParam("node_number") int nodeNumber, @FormParam("power_status") boolean powerStatus) {
         JsonObject statusJsonObject;
 
         try {
             binaryAccess.setPowerStatus(nodeNumber, powerStatus);
 
+            JsonObject dataJsonObject = Json.createObjectBuilder()
+                    .add("node_number", nodeNumber)
+                    .add("power_status", powerStatus)
+                    .build();
+
             statusJsonObject = Json.createObjectBuilder()
                     .add("status", "ok")
+                    .add("data", dataJsonObject)
                     .build();
         } catch (Exception e) {
             logger.error("Failed to set 'power_status' data to system : " + e);
