@@ -39,3 +39,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
+
+war {
+    archiveName 'vraptor-interpreter.war'
+}
