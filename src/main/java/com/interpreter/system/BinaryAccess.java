@@ -1,5 +1,6 @@
 package com.interpreter.system;
 
+import com.interpreter.Configuration;
 import com.interpreter.dto.AllSensorData;
 import com.interpreter.dto.chassis.ChassisData;
 import com.interpreter.dto.chassis.FanData;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class BinaryAccess extends AccessObject implements Accessable {
 
     private static BinaryAccess instance;
+    private Configuration configuration = Configuration.getInstance();
 
     public static BinaryAccess getInstance() {
         if (instance == null) {
@@ -72,14 +74,10 @@ public class BinaryAccess extends AccessObject implements Accessable {
     }
 
     public ArrayList<FanData> getAllFanData() {
-        /**
-         * @TODO
-         * Should get system data
-         * (6 역시 밖의 .properties 로 뺄 것)
-         */
+        int fanNumber = Integer.parseInt(configuration.getProperty("fan_number"));
         ArrayList<FanData> fanDataList = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < fanNumber; i++) {
             fanDataList.add(getFanData(i));
         }
 
@@ -109,14 +107,10 @@ public class BinaryAccess extends AccessObject implements Accessable {
     }
 
     public ArrayList<NodeData> getAllNodeData() {
-        /**
-         * @TODO
-         * Should get system data
-         * (32 역시 밖의 .properties 로 뺄 것)
-         */
+        int nodeNumber = Integer.parseInt(configuration.getProperty("node_number"));
         ArrayList<NodeData> nodeDataList = new ArrayList<>();
 
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < nodeNumber; i++) {
             nodeDataList.add(getNodeData(i));
         }
 
