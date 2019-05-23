@@ -32,7 +32,7 @@ public class NodeResource extends ResourceObject {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_power_status")
-    public Response setNodePowerStatus(@FormParam("node_number") int nodeNumber, @FormParam("power_status") boolean powerStatus) {
+    public Response setNodePowerStatus(@FormParam("node_number") int nodeNumber, @FormParam("power_status") int powerStatus) {
         JsonObject statusJsonObject;
 
         try {

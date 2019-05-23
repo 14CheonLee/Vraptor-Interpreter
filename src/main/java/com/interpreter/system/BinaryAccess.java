@@ -24,16 +24,56 @@ public class BinaryAccess extends AccessObject implements Accessable {
 
     private BinaryAccess() { }
 
-    public boolean setFanMode(boolean fanAutoSwitch) {
-        return true;
+    /**
+     * @param fanAutoSwitch
+     * @param defaultTemperature
+     */
+    public boolean setFanMode(boolean fanAutoSwitch, int defaultTemperature) {
+        if (fanAutoSwitch) {
+            /**
+             * @TODO
+             * Set fan auto switch to True
+             * Set defaultTemperature
+             */
+            return true;  // Remove this
+        } else {
+            /**
+             * @TODO
+             * Set fan auto switch to False
+             */
+            return true;  // Remove this
+        }
+        // return true;
     }
 
     public boolean setFanSpeed(int fanNumber, int speed) {
         return true;
     }
 
-    public boolean setPowerStatus(int nodeNumber, boolean powerStatus) {
-        return true;
+    /**
+     * @param nodeNumber
+     * @param powerStatus (0 : Reset, 1 : Off)
+     */
+    public boolean setPowerStatus(int nodeNumber, int powerStatus) {
+        boolean resultStatus = false;
+
+        // Reset
+        if (powerStatus == 0) {
+            /**
+             * @TODO
+             * Reset
+             */
+            resultStatus = true;
+        // Off
+        } else if (powerStatus == 1) {
+            /**
+             * @TODO
+             * Off Power
+             */
+            resultStatus = true;
+        }
+
+        return resultStatus;
     }
 
     public AllSensorData getAllSensorData() {

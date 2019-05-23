@@ -30,11 +30,11 @@ public class FanResource extends ResourceObject {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_auto_switch")
-    public Response setFanMode(@FormParam("fan_auto_switch") boolean fanAutoSwitch) {
+    public Response setFanMode(@FormParam("fan_auto_switch") boolean fanAutoSwitch, @FormParam("default_temperature") int defaultTemperature) {
         JsonObject statusJsonObject;
 
         try {
-            binaryAccess.setFanMode(fanAutoSwitch);
+            binaryAccess.setFanMode(fanAutoSwitch, defaultTemperature);
 
             /**
              * @TODO
@@ -42,6 +42,7 @@ public class FanResource extends ResourceObject {
              */
             JsonObject dataJsonObject = Json.createObjectBuilder()
                     .add("fan_auto_switch", fanAutoSwitch)
+                    .add("default_temperature", defaultTemperature)
                     .build();
 
             statusJsonObject = Json.createObjectBuilder()
