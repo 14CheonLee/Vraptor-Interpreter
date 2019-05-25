@@ -1,6 +1,6 @@
 package com.interpreter.boundary;
 
-import com.interpreter.system.BinaryAccess;
+import com.interpreter.system.CommandAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 public class FanResource extends ResourceObject {
 
     private static final Logger logger = LoggerFactory.getLogger(FanResource.class);
-    private BinaryAccess binaryAccess = BinaryAccess.getInstance();
+    private CommandAccess commandAccess = CommandAccess.getInstance();
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -30,16 +30,45 @@ public class FanResource extends ResourceObject {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/set_auto_switch")
-    public Response setFanMode(@FormParam("fan_auto_switch") boolean fanAutoSwitch, @FormParam("default_temperature") int defaultTemperature) {
+    public Response setFanMode(@FormParam("fan_auto_switch") int fanAutoSwitch) {
         JsonObject statusJsonObject;
 
         try {
-            binaryAccess.setFanMode(fanAutoSwitch, defaultTemperature);
+            commandAccess.setFanMode(fanAutoSwitch);
 
             /**
              * @TODO
              * status 와 data 부분 합치는 것 따로 부모 클래스에서 만들어서 상속받을 것 (중복 제거)
              */
+            JsonObject dataJsonObject = Json.createObjectBuilder()
+                    .add("fan_auto_switch", fanAutoSwitch)
+                    .build();
+
+            statusJsonObject = Json.createObjectBuilder()
+                    .add("status", "ok")
+                    .add("data", dataJsonObject)
+                    .build();
+        } catch (Exception e) {
+            logger.error("Failed to set 'fan_mode' data to system : " + e);
+
+            statusJsonObject = Json.createObjectBuilder()
+                    .add("status", "fail")
+                    .build();
+        }
+
+        return Response.ok(statusJsonObject.toString()).build();
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Path("/set_auto_switch_with_temp")
+    public Response setFanModeWithTemperature(@FormParam("fan_auto_switch") int fanAutoSwitch, @FormParam("default_temperature") int defaultTemperature) {
+        JsonObject statusJsonObject;
+
+        try {
+            commandAccess.setFanMode(fanAutoSwitch, defaultTemperature);
+
             JsonObject dataJsonObject = Json.createObjectBuilder()
                     .add("fan_auto_switch", fanAutoSwitch)
                     .add("default_temperature", defaultTemperature)
@@ -68,7 +97,7 @@ public class FanResource extends ResourceObject {
         JsonObject statusJsonObject;
 
         try {
-            binaryAccess.setFanSpeed(fanNumber, speed);
+            commandAccess.setFanSpeed(fanNumber, speed);
 
             JsonObject dataJsonObject = Json.createObjectBuilder()
                     .add("fan_number", fanNumber)

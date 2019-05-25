@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class ChassisData extends DataObject {
 
-    private final int temperature;
+    private final float temperature;
     private final ArrayList<FanData> fanDataList;
-    private final boolean fanAutoSwitch;
+    private final int fanAutoSwitch;
 
     private ChassisData(ChassisDataBuilder chassisDataBuilder) {
         this.temperature = chassisDataBuilder.temperature;
@@ -19,7 +19,7 @@ public class ChassisData extends DataObject {
         this.fanAutoSwitch = chassisDataBuilder.fanAutoSwitch;
     }
 
-    public int getTemperature() {
+    public float getTemperature() {
         return temperature;
     }
 
@@ -27,7 +27,7 @@ public class ChassisData extends DataObject {
         return fanDataList;
     }
 
-    public boolean isFanAutoSwitch() {
+    public int isFanAutoSwitch() {
         return fanAutoSwitch;
     }
 
@@ -36,15 +36,15 @@ public class ChassisData extends DataObject {
      */
     public static class ChassisDataBuilder {
 
-        private int temperature;
+        private float temperature;
         private ArrayList<FanData> fanDataList;
-        private boolean fanAutoSwitch;
+        private int fanAutoSwitch;
 
         public ChassisDataBuilder() {
 
         }
 
-        public ChassisDataBuilder setTemperature(int temperature) {
+        public ChassisDataBuilder setTemperature(float temperature) {
             this.temperature = temperature;
             return this;
         }
@@ -54,7 +54,7 @@ public class ChassisData extends DataObject {
             return this;
         }
 
-        public ChassisDataBuilder setFanAutoSwitch(boolean fanAutoSwitch) {
+        public ChassisDataBuilder setFanAutoSwitch(int fanAutoSwitch) {
             this.fanAutoSwitch = fanAutoSwitch;
             return this;
         }
