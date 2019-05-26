@@ -12,6 +12,7 @@ RUN mv /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT_old
 # Download and build the gradle wrapper
 COPY ["./build.gradle", "./gradlew", "./gradlew.bat", "./settings.gradle", "/Vraptor-Interpreter/"]
 COPY ["./gradle/", "/Vraptor-Interpreter/gradle/"]
+RUN chmod +x /Vraptor-Interpreter/gradlew
 RUN /Vraptor-Interpreter/gradlew wrapper
 
 # Copy all source codes to container
@@ -20,7 +21,7 @@ COPY [".", "/Vraptor-Interpreter"]
 WORKDIR /Vraptor-Interpreter
 
 # Build the gradle
-RUN ./gradlew build
+RUN chmod +x ./gradlew
 RUN ./gradlew war
 
 # Copy the war file to tomcat/webapps with changing the name to 'ROOT.war'
