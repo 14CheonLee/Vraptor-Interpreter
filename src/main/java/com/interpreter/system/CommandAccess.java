@@ -27,44 +27,44 @@ public class CommandAccess extends AccessObject implements Accessable {
 
     private CommandAccess() { }
 
-    public boolean setFanMode(int fanAutoSwitch) {
+    public int setFanMode(int fanAutoSwitch) {
         int commandResult;
         String cmd = configuration.getProperty("set_fan_mode") + " " + fanAutoSwitch;
 
         commandResult = Integer.parseInt(commandExecutor.execute(cmd));
 
-        return commandResult != -1;
+        return commandResult;
     }
 
-    public boolean setFanMode(int fanAutoSwitch, int defaultTemperature) {
+    public int setFanMode(int fanAutoSwitch, int defaultTemperature) {
         int commandResult;
         String cmd = configuration.getProperty("set_fan_mode") + " " + fanAutoSwitch + " " + defaultTemperature;
 
         commandResult = Integer.parseInt(commandExecutor.execute(cmd));
 
-        return commandResult != -1;
+        return commandResult;
     }
 
-    public boolean setFanSpeed(int fanNumber, int speed) {
+    public int setFanSpeed(int fanNumber, int speed) {
         int commandResult;
         String cmd = configuration.getProperty("set_fan_speed") + " " + fanNumber + " " + speed;
 
         commandResult = Integer.parseInt(commandExecutor.execute(cmd));
 
-        return commandResult != -1;
+        return commandResult;
     }
 
     /**
      * @param nodeNumber
      * @param powerStatus (0 : Reset, 1 : Off)
      */
-    public boolean setPowerStatus(int nodeNumber, int powerStatus) {
+    public int setPowerStatus(int nodeNumber, int powerStatus) {
         int commandResult;
         String cmd = configuration.getProperty("set_power_status") + " " + nodeNumber + " " + powerStatus;
 
         commandResult = Integer.parseInt(commandExecutor.execute(cmd));
 
-        return commandResult != -1;
+        return commandResult;
     }
 
     public AllSensorData getAllSensorData() {

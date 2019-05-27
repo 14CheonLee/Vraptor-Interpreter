@@ -34,18 +34,25 @@ public class NodeResource extends ResourceObject {
     @Path("/set_power_status")
     public Response setNodePowerStatus(@FormParam("node_number") int nodeNumber, @FormParam("power_status") int powerStatus) {
         JsonObject statusJsonObject;
+        int commandResult;
 
         try {
-            commandAccess.setPowerStatus(nodeNumber, powerStatus);
+            commandResult = commandAccess.setPowerStatus(nodeNumber, powerStatus);
+            if (commandResult == -1) throw new Exception();
 
-            JsonObject dataJsonObject = Json.createObjectBuilder()
+            JsonObject inputDataJsonObject = Json.createObjectBuilder()
                     .add("node_number", nodeNumber)
                     .add("power_status", powerStatus)
                     .build();
 
+            JsonObject outputDataJsonObject = Json.createObjectBuilder()
+                    .add("command_result", commandResult)
+                    .build();
+
             statusJsonObject = Json.createObjectBuilder()
                     .add("status", "ok")
-                    .add("data", dataJsonObject)
+                    .add("input_data", inputDataJsonObject)
+                    .add("output_data", outputDataJsonObject)
                     .build();
         } catch (Exception e) {
             logger.error("Failed to set 'power_status' data to system : " + e);
