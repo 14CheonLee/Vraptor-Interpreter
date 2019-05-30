@@ -10,13 +10,19 @@ import java.util.ArrayList;
 public class ServerData extends DataObject {
 
     private final ArrayList<NodeData> nodeDataList;
+    private final int serverPowerStatus;
 
     private ServerData(ServerDataBuilder serverDataBuilder) {
         this.nodeDataList = serverDataBuilder.nodeDataList;
+        this.serverPowerStatus = serverDataBuilder.serverPowerStatus;
     }
 
     public ArrayList<NodeData> getNodeDataList() {
         return nodeDataList;
+    }
+
+    public int getServerPowerStatus() {
+        return serverPowerStatus;
     }
 
     public JsonObject getNodeDataListToJson() {
@@ -36,6 +42,7 @@ public class ServerData extends DataObject {
      */
     public static class ServerDataBuilder {
         private ArrayList<NodeData> nodeDataList;
+        private int serverPowerStatus;
 
         public ServerDataBuilder() {
 
@@ -46,6 +53,11 @@ public class ServerData extends DataObject {
             return this;
         }
 
+        public ServerDataBuilder setServerPowerStatus(int powerStatus) {
+            this.serverPowerStatus = powerStatus;
+            return this;
+        }
+
         public ServerData build() {
             return new ServerData(this);
         }
@@ -53,14 +65,23 @@ public class ServerData extends DataObject {
 
     @Override
     public JsonObject toJson() {
-        JsonArrayBuilder nodeDataListBuilder = Json.createArrayBuilder();
-
-        for (NodeData nodeData : this.nodeDataList) {
-            nodeDataListBuilder.add(nodeData.toJson());
-        }
+//        JsonArrayBuilder nodeDataListBuilder = Json.createArrayBuilder();
+//
+//        for (NodeData nodeData : this.nodeDataList) {
+//            nodeDataListBuilder.add(nodeData.toJson());
+//        }
 
         return Json.createObjectBuilder()
-                .add("node_data", nodeDataListBuilder)
+//                .add("node_data", nodeDataListBuilder)
+                .add("power_status", this.serverPowerStatus)
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "ServerData{" +
+                "serverPowerStatus=" + serverPowerStatus +
+//                ", nodeDataList=" + nodeDataList +
+                '}';
     }
 }

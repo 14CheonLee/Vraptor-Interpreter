@@ -56,11 +56,20 @@ public class CommandAccess extends AccessObject implements Accessable {
 
     /**
      * @param nodeNumber
-     * @param powerStatus (0 : Reset, 1 : Off)
+     * @param powerStatus (0 : Reset, 1 : Off, 2 : o)
      */
     public int setPowerStatus(int nodeNumber, int powerStatus) {
         int commandResult;
         String cmd = configuration.getProperty("set_power_status") + " " + nodeNumber + " " + powerStatus;
+
+        commandResult = Integer.parseInt(commandExecutor.execute(cmd));
+
+        return commandResult;
+    }
+
+    public int setServerPowerStatus(int powerStatus) {
+        int commandResult;
+        String cmd = configuration.getProperty("set_power_status") + " " + powerStatus;
 
         commandResult = Integer.parseInt(commandExecutor.execute(cmd));
 
@@ -122,7 +131,8 @@ public class CommandAccess extends AccessObject implements Accessable {
 
     public ServerData getServerData() {
         return new ServerData.ServerDataBuilder()
-                .setNodeDataList(getAllNodeData())
+                .setServerPowerStatus(getServerPowerStatus())
+//                .setNodeDataList(getAllNodeData())
                 .build();
     }
 
@@ -147,5 +157,14 @@ public class CommandAccess extends AccessObject implements Accessable {
         }
 
         return nodeDataList;
+    }
+
+    public int getServerPowerStatus() {
+        int currentServerPowerStatus;
+        String cmd = configuration.getProperty("get_power_status");
+
+        currentServerPowerStatus = Integer.parseInt(commandExecutor.execute(cmd));
+
+        return currentServerPowerStatus;
     }
 }

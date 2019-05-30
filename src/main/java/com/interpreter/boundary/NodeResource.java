@@ -68,6 +68,42 @@ public class NodeResource extends ResourceObject {
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Path("/set_server_power_status")
+    public Response setServerPowerStatus(@FormParam("power_status") int powerStatus) {
+        JsonObject statusJsonObject;
+        int commandResult;
+
+        try {
+            commandResult = commandAccess.setServerPowerStatus(powerStatus);
+            if (commandResult == -1) throw new Exception();
+
+            JsonObject inputDataJsonObject = Json.createObjectBuilder()
+                    .add("power_status", powerStatus)
+                    .build();
+
+            JsonObject outputDataJsonObject = Json.createObjectBuilder()
+                    .add("command_result", commandResult)
+                    .build();
+
+            statusJsonObject = Json.createObjectBuilder()
+                    .add("status", "ok")
+                    .add("input_data", inputDataJsonObject)
+                    .add("output_data", outputDataJsonObject)
+                    .build();
+        } catch (Exception e) {
+            logger.error("Failed to set 'server_power_status' data to system : " + e);
+
+            statusJsonObject = Json.createObjectBuilder()
+                    .add("status", "fail")
+                    .build();
+        }
+
+        return Response.ok(statusJsonObject.toString()).build();
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/get_all_node_data")
     public Response getAllNodeData() {
         JsonObject dataJsonObject;
